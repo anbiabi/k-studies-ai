@@ -7,10 +7,37 @@ type Message = {
   text: string;
 };
 
-const prompts = [
-  "Embassy vs university track",
-  "GPA & age requirements",
-  "Required documents",
+const promptGroups = [
+  {
+    label: "Application track",
+    questions: [
+      "Embassy vs university track",
+      "Can I apply through both tracks?",
+      "How many universities can I choose?",
+      "What is the Regional University Track?",
+      "Which track is best for my application?",
+    ],
+  },
+  {
+    label: "Eligibility",
+    questions: [
+      "GPA & age requirements",
+      "What degree do I need for GKS Graduate?",
+      "What are the citizenship requirements?",
+      "Can final-year students apply?",
+      "Does my study gap affect eligibility?",
+    ],
+  },
+  {
+    label: "Documents",
+    questions: [
+      "Required documents",
+      "How do I prepare recommendation letters?",
+      "Which documents need apostille or notarization?",
+      "Are TOPIK or IELTS scores required?",
+      "How should I submit my transcripts?",
+    ],
+  },
 ];
 
 const getAnswer = (query: string) => {
@@ -32,6 +59,7 @@ const Index = () => {
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [promptIndices, setPromptIndices] = useState([0, 0, 0]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -96,12 +124,23 @@ const Index = () => {
                 <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-[#8c96a8]">Ask about GKS eligibility, documents, university selection, or your application strategy.</p>
               </div>
               <div className="grid gap-2.5 sm:grid-cols-3">
-                {prompts.map((prompt) => (
-                  <button key={prompt} onClick={() => setInput(prompt)} className="rounded-xl border border-white/[0.08] bg-[#171b24] px-4 py-3 text-left text-xs font-medium text-[#b8c0d0] transition hover:-translate-y-0.5 hover:border-[#5b8cff]/50 hover:bg-[#1b2230] hover:text-white">
-                    <span className="mb-2 block text-[#64708a]">Ask about</span>
-                    {prompt}
-                  </button>
-                ))}
+                {promptGroups.map((group, groupIndex) => {
+                  const questionIndex = promptIndices[groupIndex];
+                  const question = group.questions[questionIndex];
+                  return (
+                    <button
+                      key={group.label}
+                      onClick={() => {
+                        setInput(question);
+                        setPromptIndices((current) => current.map((index, indexAt) => indexAt === groupIndex ? (index + 1) % group.questions.length : index));
+                      }}
+                      className="rounded-xl border border-white/[0.08] bg-[#171b24] px-4 py-3 text-left text-xs font-medium text-[#b8c0d0] transition hover:-translate-y-0.5 hover:border-[#5b8cff]/50 hover:bg-[#1b2230] hover:text-white"
+                    >
+                      <span className="mb-2 block text-[#64708a]">Ask about · {group.label}</span>
+                      {question}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           ) : (
