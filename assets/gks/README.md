@@ -14,6 +14,8 @@ The application uses the concise official extracts in `official-sources.md` as i
 ## Current source set
 
 - `official-sources.md` — maintained source register and offline facts used by the AI.
+- `official-extracts.json` — structured extracts consumed by the AI server context.
+- `source-library.md` — readable local reference with source URLs and extracted official text.
 - `manifest.json` — machine-readable years, notice URLs, and expected official attachments.
 - `2026/README.md` — 2026 official notices and attachments.
 - `2027/README.md` — 2027 official notices and attachments currently published.

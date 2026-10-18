@@ -1,3 +1,5 @@
+import { OFFICIAL_GKS_EXTRACTS } from "./gks-source-extracts.js";
+
 export const GKS_OFFLINE_CONTEXT = `OFFLINE OFFICIAL GKS CONTEXT (maintained in assets/gks/official-sources.md; last reviewed 2026-10-18)
 Authority order: current NIIED/Study in Korea recruitment guideline, current Study in Korea notice, relevant Korean Embassy/Consulate, designated university, then older material only for comparison.
 
@@ -12,7 +14,10 @@ OFFICIAL REFERENCES
 2026 overview: https://www.studyinkorea.go.kr/ko/plan/scholarship.do?tab=gks-tab2
 2027 GKS-U notice: https://www.studyinkorea.go.kr/ko/plan/gksNoticeRead.do?bbsId=BBSMSTR_000000000461&nttId=4522
 The 2026 GKS-G notice lists revised guidelines, forms, general university information parts 1–3, and specialization information. The 2027 GKS-U notice lists English/Korean guidelines, forms, Embassy Track Type A/B university information, and University Track information.
-For Cameroon, verify country-specific instructions with the current Korean Embassy in Cameroon notice in addition to NIIED guidance.`;
+For Cameroon, verify country-specific instructions with the current Korean Embassy in Cameroon notice in addition to NIIED guidance.
+
+EXTRACTED OFFICIAL STUDY IN KOREA SOURCE TEXT:
+${OFFICIAL_GKS_EXTRACTS.map((source) => `Source: ${source.title ?? source.url} (${source.url})\n${source.text}`).join("\n\n")}`;
 
 export const getOfflineGksAnswer = (messages: Array<{ role: "user" | "assistant"; content: string }>) => {
   const question = messages[messages.length - 1]?.content ?? "";

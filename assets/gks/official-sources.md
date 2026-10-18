@@ -22,6 +22,10 @@ Common application materials can include the application form, personal statemen
 
 Embassies and universities conduct the first screening for their respective tracks. Applicants must follow the receiving embassy's or university's additional instructions. A university list, quota, deadline, or country-specific process in an older year must not be presented as current.
 
+## Locally saved source extracts
+
+The files [official-extracts.json] and [source-library.md] contain the extracted official page text, page titles, and source URLs for the current GKS-G notice, GKS-U notice, official scholarship overview, and both official application user-guide PDFs. The source documents remain hosted by Study in Korea; the saved extracts make their accessible text available offline. Binary application guideline and university-information attachments are listed in each notice but are not included as downloaded files yet.
+
 ## Current official references
 
 ### 2026 graduate (GKS-G)
