@@ -66,20 +66,32 @@ const Index = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isThinking]);
 
-  const submitQuestion = (event: FormEvent) => {
+  const submitQuestion = async (event: FormEvent) => {
     event.preventDefault();
     const question = input.trim();
     if (!question || isThinking) return;
 
     const userMessage: Message = { id: Date.now(), role: "user", text: question };
-    setMessages((current) => [...current, userMessage]);
+    const conversation = [...messages, userMessage];
+    setMessages(conversation);
     setInput("");
     setIsThinking(true);
 
-    window.setTimeout(() => {
-      setMessages((current) => [...current, { id: Date.now() + 1, role: "assistant", text: getAnswer(question) }]);
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: conversation.map(({ role, text }) => ({ role, content: text })) }),
+      });
+      const result = await response.json() as { answer?: string };
+      if (!response.ok || !result.answer) throw new Error("AI request failed");
+      setMessages((current) => [...current, { id: Date.now() + 1, role: "assistant", text: result.answer }]);
+    } catch {
+      const fallback = import.meta.env.DEV ? getAnswer(question) : "The AI service is temporarily unavailable. Please try again shortly.";
+      setMessages((current) => [...current, { id: Date.now() + 1, role: "assistant", text: fallback }]);
+    } finally {
       setIsThinking(false);
-    }, 650);
+    }
   };
 
   const copyAnswer = async (message: Message) => {
