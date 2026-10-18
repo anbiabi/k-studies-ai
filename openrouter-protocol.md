@@ -68,4 +68,5 @@ Change only `OPENROUTER_MODEL` in Vercel. Do not change the UI or client contrac
 - Add rate limiting at the `/api/chat` boundary before public launch.
 - Set Vercel function duration and region according to the selected plan and audience.
 - Monitor provider errors and latency using Vercel logs without storing user content.
-- Keep a safe local fallback only for development; production responses should come from OpenRouter or a clear temporary-unavailable message.
+- Keep the local official GKS source library available in production as a safe fallback. If OpenRouter is unavailable, unconfigured, times out, or returns only tool calls without usable text, `/api/chat` answers from the offline context instead of exposing provider details.
+- Review `assets/gks/manifest.json` and `assets/gks/official-sources.md` annually so the offline fallback does not become stale.

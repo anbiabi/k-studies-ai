@@ -1,0 +1,31 @@
+{
+  "library": "GKS official source library",
+  "lastReviewed": "2026-10-18",
+  "authority": "NIIED / Study in Korea",
+  "primaryContext": "official-sources.md",
+  "years": [
+    {
+      "year": 2026,
+      "programs": ["GKS-G"],
+      "notice": "https://www.studyinkorea.go.kr/ko/plan/gksNoticeRead.do?bbsId=BBSMSTR_000000000461&nttId=4420",
+      "attachments": [
+        "Revised GKS-G Application Guidelines",
+        "GKS-G Application Forms",
+        "University Information (General), parts 1–3",
+        "University Information (Specialization) for University Track"
+      ]
+    },
+    {
+      "year": 2027,
+      "programs": ["GKS-U"],
+      "notice": "https://www.studyinkorea.go.kr/ko/plan/gksNoticeRead.do?bbsId=BBSMSTR_000000000461&nttId=4522",
+      "attachments": [
+        "GKS-U Application Guidelines in English and Korean",
+        "GKS-U Application Forms",
+        "Embassy Track Type A university information",
+        "Embassy Track Type B university information",
+        "University Track university information"
+      ]
+    }
+  ]
+}
