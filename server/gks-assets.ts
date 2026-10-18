@@ -14,8 +14,13 @@ OFFICIAL REFERENCES
 The 2026 GKS-G notice lists revised guidelines, forms, general university information parts 1–3, and specialization information. The 2027 GKS-U notice lists English/Korean guidelines, forms, Embassy Track Type A/B university information, and University Track information.
 For Cameroon, verify country-specific instructions with the current Korean Embassy in Cameroon notice in addition to NIIED guidance.`;
 
-export const getOfflineGksAnswer = (question: string) => {
+export const getOfflineGksAnswer = (messages: Array<{ role: "user" | "assistant"; content: string }>) => {
+  const question = messages[messages.length - 1]?.content ?? "";
   const normalized = question.toLowerCase();
+  const previousAnswer = [...messages.slice(0, -1)].reverse().find((message) => message.role === "assistant")?.content ?? "";
+  if (/^(how is that|how so|what do you mean|explain|why|can you explain)[?.! ]*$/i.test(normalized.trim()) && previousAnswer) {
+    return `I mean the two routes work differently: Embassy Track is submitted to the Korean diplomatic mission handling your country, while University Track is submitted directly to one designated university. The current GKS notice sets each route's exact rules. I’m answering from the local official GKS context because the live AI service is unavailable.`;
+  }
   if (normalized.includes("embassy") || normalized.includes("university track") || normalized.includes("track")) {
     return "GKS normally has Embassy Track (apply through the Korean diplomatic mission in your country of citizenship) and University Track (apply directly to a designated university). Use one route only. The current year's NIIED guideline and the receiving embassy or university decide the exact process, quota, and university choices. For Cameroon-specific steps, verify the current Korean Embassy in Cameroon notice.";
   }

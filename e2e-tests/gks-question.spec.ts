@@ -12,4 +12,8 @@ test("asks a GKS question and receives guidance", async ({ page }) => {
   await expect(page.getByText("You", { exact: true })).toBeVisible();
   await expect(page.getByText(/GKS|eligibility|official/i).last()).toBeVisible();
   await expect(page.getByRole("button", { name: "Clear conversation" })).toBeVisible();
+
+  await page.getByRole("textbox", { name: "Your GKS question" }).fill("how is that");
+  await page.getByRole("button", { name: "Send question" }).click();
+  await expect(page.getByText(/Embassy Track is submitted to the Korean diplomatic mission/i)).toBeVisible();
 });

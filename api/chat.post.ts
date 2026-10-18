@@ -39,7 +39,7 @@ export default defineHandler(async (event) => {
   }
 
   if (!apiKey || !model) {
-    return Response.json({ answer: getOfflineGksAnswer(messages[messages.length - 1].content), source: "offline" });
+    return Response.json({ answer: getOfflineGksAnswer(messages as ChatMessage[]), source: "offline" });
   }
 
   try {
@@ -61,17 +61,17 @@ export default defineHandler(async (event) => {
     });
 
     if (!response.ok) {
-      return Response.json({ answer: getOfflineGksAnswer(messages[messages.length - 1].content), source: "offline" });
+      return Response.json({ answer: getOfflineGksAnswer(messages as ChatMessage[]), source: "offline" });
     }
 
     const result = await response.json() as { choices?: Array<{ message?: { content?: unknown; tool_calls?: unknown[] } }> };
     const answer = result.choices?.[0]?.message?.content;
     if (typeof answer !== "string" || !answer.trim()) {
-      return Response.json({ answer: getOfflineGksAnswer(messages[messages.length - 1].content), source: "offline" });
+      return Response.json({ answer: getOfflineGksAnswer(messages as ChatMessage[]), source: "offline" });
     }
 
     return Response.json({ answer: answer.trim(), source: "openrouter" });
   } catch {
-    return Response.json({ answer: getOfflineGksAnswer(messages[messages.length - 1].content), source: "offline" });
+    return Response.json({ answer: getOfflineGksAnswer(messages as ChatMessage[]), source: "offline" });
   }
 });
