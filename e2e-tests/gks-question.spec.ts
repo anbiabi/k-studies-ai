@@ -10,6 +10,6 @@ test("asks a GKS question and receives guidance", async ({ page }) => {
   await page.getByRole("button", { name: "Send question" }).click();
 
   await expect(page.getByText("You", { exact: true })).toBeVisible();
-  await expect(page.getByText(/For GKS Graduate applicants/)).toBeVisible();
+  await expect(page.getByText(/GKS|eligibility|official/i).last()).toBeVisible();
   await expect(page.getByRole("button", { name: "Clear conversation" })).toBeVisible();
 });

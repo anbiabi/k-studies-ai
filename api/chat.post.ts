@@ -1,4 +1,5 @@
 import { defineHandler } from "nitro";
+import { getOfflineGksAnswer } from "../server/gks-assets";
 import { K_STUDIES_SYSTEM_PROMPT } from "../server/k-studies-system";
 
 type ChatMessage = {
@@ -22,9 +23,6 @@ export default defineHandler(async (event) => {
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   const model = process.env.OPENROUTER_MODEL;
-  if (!apiKey || !model) {
-    return Response.json({ error: "AI service is not configured." }, { status: 503 });
-  }
 
   let body: unknown;
   try {
@@ -38,6 +36,10 @@ export default defineHandler(async (event) => {
     : [];
   if (messages.length === 0 || messages.length > MAX_MESSAGES || !messages.every(isChatMessage)) {
     return Response.json({ error: "Please provide a valid conversation." }, { status: 400 });
+  }
+
+  if (!apiKey || !model) {
+    return Response.json({ answer: getOfflineGksAnswer(messages[messages.length - 1].content), source: "offline" });
   }
 
   try {
@@ -59,17 +61,17 @@ export default defineHandler(async (event) => {
     });
 
     if (!response.ok) {
-      return Response.json({ error: "The AI service is temporarily unavailable." }, { status: 502 });
+      return Response.json({ answer: getOfflineGksAnswer(messages[messages.length - 1].content), source: "offline" });
     }
 
-    const result = await response.json() as { choices?: Array<{ message?: { content?: unknown } }> };
+    const result = await response.json() as { choices?: Array<{ message?: { content?: unknown; tool_calls?: unknown[] } }> };
     const answer = result.choices?.[0]?.message?.content;
     if (typeof answer !== "string" || !answer.trim()) {
-      return Response.json({ error: "The AI returned an empty response." }, { status: 502 });
+      return Response.json({ answer: getOfflineGksAnswer(messages[messages.length - 1].content), source: "offline" });
     }
 
-    return Response.json({ answer: answer.trim() });
+    return Response.json({ answer: answer.trim(), source: "openrouter" });
   } catch {
-    return Response.json({ error: "The AI service is temporarily unavailable." }, { status: 502 });
+    return Response.json({ answer: getOfflineGksAnswer(messages[messages.length - 1].content), source: "offline" });
   }
 });
