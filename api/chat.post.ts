@@ -1,6 +1,6 @@
 import { defineHandler } from "nitro";
-import { getOfflineGksAnswer } from "../server/gks-assets";
-import { K_STUDIES_SYSTEM_PROMPT } from "../server/k-studies-system";
+import { getOfflineGksAnswer } from "../server/gks-assets.js";
+import { K_STUDIES_SYSTEM_PROMPT } from "../server/k-studies-system.js";
 
 type ChatMessage = {
   role: "user" | "assistant";

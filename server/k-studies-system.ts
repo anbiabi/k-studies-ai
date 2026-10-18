@@ -1,4 +1,4 @@
-import { GKS_OFFLINE_CONTEXT } from "./gks-assets";
+import { GKS_OFFLINE_CONTEXT } from "./gks-assets.js";
 
 export const K_STUDIES_SYSTEM_PROMPT = `You are K-Studies AI, a specialized assistant for Korean studies scholarships, especially the Global Korea Scholarship (GKS).
 
